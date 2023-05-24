@@ -33,8 +33,8 @@ def pathplanning(request):
         x,y = pp(lng,lat)
         aspect_ratio = 16/9
         al = radians(90)
-        cell_y_o = (2*50*tan(al/2))/(1+aspect_ratio**2)**0.5
-        cell_x_o = aspect_ratio*((2*50*tan(al/2))/(1+aspect_ratio**2)**0.5)
+        cell_y_o = (2*70*tan(al/2))/(1+aspect_ratio**2)**0.5
+        cell_x_o = aspect_ratio*((2*70*tan(al/2))/(1+aspect_ratio**2)**0.5)
         cell_y = (1-.80)*cell_y_o
         cell_x = (1-.80)*cell_x_o
         xmin=np.min(x)
@@ -98,6 +98,43 @@ def pathplanning(request):
         for i in path:
             cord = pos[i]
             path2.append(cord)
+
+
+
+            #
+    #     def bfs_zigzag(graph,start):
+    #         if start not in graph:
+    #             return []
+    #         result=[]
+    #         queue = [(start,0)]
+    #         v = set([start])
+    #         while queue:
+    #             node,level = queue.pop(0)
+    #             if len(result)<=level:
+    #                 result.append([])
+    #             if level%2==0:
+    #                 result[level].append(node)
+    #             else:
+    #                 result[level].insert(0,node)
+    #             for n in graph[node]:
+    #                 if n not in v:
+    #                     v.add(n)
+    #                     queue.append((n,level+1))
+    #         return result
+    #     s=list(g2.keys())
+    #     # print(s)
+    #     zz=bfs_zigzag(g2, s[0])
+    #     zz_f=[]
+    #     for i in range(len(zz)):
+    #         zz2 = zz[i]
+    #         for j in range(len(zz2)):
+    #             zz_f.append(zz2[j])
+    #     path3=[]
+    # for i in zz_f:
+    #     cord = pos[i]
+    #     path3.append(cord)
+            #
+
         lng = []
         lat = []
         final_path_with_lat_lng = []
@@ -105,5 +142,15 @@ def pathplanning(request):
             x,y = path2[i]
             lat_lng = pp(x,y,inverse=True)
             final_path_with_lat_lng.append(lat_lng)
-#     print(final_path_with_lat_lng)
-    return HttpResponse(final_path_with_lat_lng)
+    # print(final_path_with_lat_lng)
+    import json
+    path_geojson = {
+    "type": "Feature",
+    "geometry": {
+        "type": "LineString",
+        "coordinates": final_path_with_lat_lng
+    },
+    "properties": {}
+}
+    path_geojson_str = json.dumps(path_geojson)
+    return HttpResponse(path_geojson_str)
