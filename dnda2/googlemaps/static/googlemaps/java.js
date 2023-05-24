@@ -75,12 +75,16 @@ var data2 = {'cordinates':cor}
      headers: {'X-CSRFToken': csrftoken}, 
      success: function(data1) {
 var path_geojson_obj = JSON.parse(data1);
+if (map.getLayer('path')) {
+    map.removeLayer('path');
+}
+if (map.getSource('path')) {
+    map.removeSource('path');
+}
 map.addSource('path', {
     type: 'geojson',
     data: path_geojson_obj
 });
-
-// Add a `line` layer to the map that uses the `path` data source
 map.addLayer({
     id: 'path',
     type: 'line',
