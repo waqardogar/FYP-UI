@@ -57,7 +57,7 @@ showUserHeading: true
 function updateArea(e) {
 const data = draw.getAll();
 cor=data['features'][0]['geometry']['coordinates'][0];
-console.log(cor)
+// console.log(cor)
 if (data.features.length > 0) {
 const area = turf.area(data);
 const rounded_area = Math.round(area * 100) / 100;
@@ -75,7 +75,6 @@ var data2 = {'cordinates':cor}
      headers: {'X-CSRFToken': csrftoken}, 
      success: function(data1) {
 var path_geojson_obj = JSON.parse(data1);
-console.log(data1)
 map.addSource('path', {
     type: 'geojson',
     data: path_geojson_obj
