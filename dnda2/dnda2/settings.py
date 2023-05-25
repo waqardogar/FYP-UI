@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'authentication',
     'dashboard',
     'googlemaps',
-    'pathplanning'
+    'pathplanning',
+    'droneintegration',
 ]
 
 MIDDLEWARE = [
