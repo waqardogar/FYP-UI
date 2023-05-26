@@ -13,7 +13,8 @@
             @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Tilt+Neon&display=swap');
   .sidenav {
   height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
+  width: 340px; /* 0 width - change this with JavaScript */
+
   position: fixed; /* Stay in place */
   z-index: 1; /* Stay on top */
   top: 0;
@@ -74,12 +75,36 @@
 }
 #overlap ,#asra{
   float: right;
-  /* display:  inline; */
-  /* width: 150px; */
   margin-right: 10px;
 }
+.name-logo{
+  display:  flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 30px;
+  color: blue;
+  margin-bottom: 20px;
+}
 
-            
+.connect{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+            .video-div{
+              background-color: rgb(114, 100, 100);
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              width: 550px;
+              height: 300px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              
+            }
 </style>
 
         <div id="map"></div>
@@ -90,54 +115,130 @@
               </div>
                 <div id="mySidenav" class="sidenav">
                   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-              
-              <br>
-              <br>
-              <h1>Mission Plan</h1>
-              <div class="path_planning">
-                <form action="">
-                <label for="OverLaping"><b>Overlapping Rate</b></label>
-                <select name="OverLaping" id="overlap" class="form-control">
-                  <option value=".10">10%</option>
-                  <option value=".20">20%</option>
-                  <option value=".30">30%</option>
-                  <option value=".40">40%</option>
-                  <option value=".50">50%</option>
-                  <option value=".60">60%</option>
-                  <option value=".70">70%</option>
-                  <option value=".80">80%</option>
-                  <option value=".90">90%</option>
-                </select>
-              <br>
-              <br>
-              <div>
-              <label for="asra">Aspect Ratio</label>
-                <select name="ar" id="asra" class="form-control">
-                  <option value="1:1">1:1</option>
-                  <option value="4:3">4:3</option>
-                  <option value="16:9">16:9</option>
-                </select>
+              <div class="name-logo">
+                D-N-D-A
+              </div>
+
+
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Path Planning Parameters settings
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        <div class="path_planning">
+          <form action="">
+          <label for="OverLaping"><b>Overlapping Rate</b></label>
+          <select name="OverLaping" id="overlap" class="form-control">
+            <option value=".10">10%</option>
+            <option value=".20">20%</option>
+            <option value=".30">30%</option>
+            <option value=".40">40%</option>
+            <option value=".50">50%</option>
+            <option value=".60">60%</option>
+            <option value=".70">70%</option>
+            <option value=".80">80%</option>
+            <option value=".90">90%</option>
+          </select>
+        <br>
+        <br>
+        <div>
+        <label for="asra">Aspect Ratio</label>
+          <select name="ar" id="asra" class="form-control">
+            <option value="1:1">1:1</option>
+            <option value="4:3">4:3</option>
+            <option value="16:9">16:9</option>
+          </select>
 <br>
-                <label for="fa">Flight Altitude (feet)</label>
-                <select name="fa" id="flight-altitude" class="form-control">
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                  <option value="30">30</option>
-                  <option value="40">40</option>
-                  <option value="50">50</option>
-                  <option value="60">60</option>
-                  <option value="70">70</option>
-                  <option value="80">80</option>
-                  <option value="90">90</option>
-                  <option value="100">100</option>
-                </select>
-              </form>
-              </div>
+<br>
+          <label for="fa">Flight Altitude (meter)</label>
+          <select name="fa" id="flight-altitude" class="form-control" style="margin-left: -7px;">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60">60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+          </select>
+        </form>
+        </div>
+    
+        <br>
+        <div class="">
+          <button class="btn btn-primary" onclick="mission_plan()">Set Parameter</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Dron Info / Connection
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        <form class="form-control">
+          <br>
+          <input type="text" class="form-control" placeholder="127.0.0.0/Connect Mobile Cam ">
           
-              <br>
-              <div class="">
-                <button class="btn btn-primary" onclick="mission_plan()">Set Parameter</button>
-              </div>
+           
+          <div class="form-check form-switch" style="margin-top: 10px;">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Live Preview Video</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          </div>
+<br>
+          <input type="text" class="form-control" placeholder="127.0.0.0/Connect Drone  ">
+
+<div class="connect">
+  <button type="submit" class="btn btn-primary">Connect</button>
+</div>
+
+          <div class="d-data" style="margin-top: 20px;">
+            <div class="battery"> <b>Remaining Power</b> <span style="margin-left: 70px;">70 %</span></div>
+            <div class="Air-Tim2"><b>Air Time (minutes)</b> <span style="margin-left: 60px;">20 </span></div>
+            <div class="Last Update">
+              <b>Last Update</b> <span style="margin-left: 110px;">70 %</span>
+            </div>
+          </div>
+        </form>
+
+        
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Upload Video 
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">
+        <div class="upload">
+          <form class="form-control">
+            <input type="file" accept="video/mp4,video/x-m4v,video/*">
+<br>
+<br>
+            <button type="submit" class="btn btn-primary"> Upload</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
               </div>
                 </div>
               <footer class="footer ">
@@ -150,6 +251,12 @@
                 </div>
                </div>
               </footer>
+
+
+
+              <div class="video-div">
+                Live Video here
+              </div>
 <script src="{% static 'googlemaps/java.js' %}"></script>
 {% endblock content %}
 
