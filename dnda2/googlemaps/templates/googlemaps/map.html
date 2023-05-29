@@ -93,18 +93,10 @@
   justify-content: center;
   margin-top: 20px;
 }
-            .video-div{
-              background-color: rgb(114, 100, 100);
-              position: absolute;
-              bottom: 0;
-              right: 0;
-              width: 550px;
-              height: 300px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
+            /* .video-div{
               
-            }
+              
+            } */
 </style>
 
         <div id="map"></div>
@@ -193,7 +185,7 @@
            
           <div class="form-check form-switch" style="margin-top: 10px;">
             <label class="form-check-label" for="flexSwitchCheckDefault">Live Preview Video</label>
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onchange="live_p()">
           </div>
 <br>
           <input type="text" class="form-control" placeholder="127.0.0.0/Connect Drone  ">
@@ -254,7 +246,7 @@
 
 
 
-              <div class="video-div">
+              <div class="video-div" id="video-screen">
                 Live Video here
               </div>
 <script src="{% static 'googlemaps/java.js' %}"></script>
