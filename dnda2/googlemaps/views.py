@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 # Create your views here.
 def dashboard(request):
-    return render (request,"googlemaps/map.html")
+    return render (request,"videostraem/video.html")
