@@ -1,4 +1,3 @@
-
 function live_p(){
     live_preview = document.getElementById('flexSwitchCheckDefault').checked
     if(live_preview){
@@ -6,6 +5,5 @@ function live_p(){
     }
     else{
         document.getElementById('video-screen').style.display = 'none' 
-
     }
 }
