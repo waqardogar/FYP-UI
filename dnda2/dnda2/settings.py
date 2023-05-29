@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'googlemaps',
     'pathplanning',
     'droneintegration',
+    'videostraem'
 ]
 
 MIDDLEWARE = [
