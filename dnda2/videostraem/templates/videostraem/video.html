@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block videostream %}
-
-    <iframe src="http://192.168.18.68:8080/jsfs.html" height="500px" width="500px" title="description" class="video-div" id="video-screen"></iframe>
-
+<style>
+    .videoc{
+        display: none;
+    }
+    
+</style>
+<div class="videoc" id="video-screen">
+    <iframe src="http://192.168.18.68:8080/jsfs.html"title="description" ></iframe>
+</div>
 {% endblock videostream %}
