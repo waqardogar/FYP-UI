@@ -19,7 +19,7 @@
   z-index: 1; /* Stay on top */
   top: 0;
   left: 0;
-  background-color: #ffffff; /* Black*/
+  background-color: #dfd7d7; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -176,7 +176,7 @@
       <div class="accordion-body">
         <form class="form-control">
           <br>
-          <input type="text" class="form-control" placeholder="127.0.0.0/Connect Mobile Cam ">
+          <input type="text" class="form-control" placeholder="127.0.0.0/Port ">
           
            
           <div class="form-check form-switch" style="margin-top: 10px;">
@@ -184,12 +184,15 @@
             <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onchange="live_p()">
           </div>
 <br>
-          <input type="text" class="form-control" placeholder="127.0.0.0/Connect Drone  ">
+          <input type="text" class="form-control" placeholder="127.0.0.0:8080  ">
 
 <div class="connect">
   <button type="submit" class="btn btn-primary">Connect</button>
 </div>
+<div class="alert alert-success" role="alert">
+  Connected ......</a>
 
+</div>
           <div class="d-data" style="margin-top: 20px;">
             <div class="battery"> <b>Remaining Power</b> <span style="margin-left: 70px;">70 %</span></div>
             <div class="Air-Tim2"><b>Air Time (minutes)</b> <span style="margin-left: 60px;">20 </span></div>

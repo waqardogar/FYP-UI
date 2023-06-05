@@ -57,7 +57,6 @@ showUserHeading: true
 function updateArea(e) {
 const data = draw.getAll();
 cor=data['features'][0]['geometry']['coordinates'][0];
-// console.log(cor)
 if (data.features.length > 0) {
 const area = turf.area(data);
 const rounded_area = Math.round(area * 100) / 100;
