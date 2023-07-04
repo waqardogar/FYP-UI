@@ -134,30 +134,42 @@
     </div>
   </div>
 </div>
-
-
-
-
               </div>
                 </div>
               <footer class="footer ">
-               <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+               <!-- <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
                   <a href="{% url 'map' %}"><button type="button"  class="btn1 btn btn-primary"> <i class="fa-regular fa-map " style="color: #ffffff;"></i></button></a>
                   <a href="{% url 'map2' %}">
                   <button  type="button" class="btn2 btn btn-primary"> <i class="fa-solid fa-person" style="color: #ffffff;"></i></button>
                 </a>
                 </div>
+               </div> -->
+               <!-- <h2>Tabs</h2>
+               <p>Click on the buttons inside the tabbed menu:</p> -->
+               <div class="tab">
+                 <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+                 <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                 <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+               </div>
+               <div id="London" class="tabcontent">
+                 <h3>London</h3>
+                 <p>London is the capital city of England.</p>
+               </div>
+               <div id="Paris" class="tabcontent">
+                 <h3>Paris</h3>
+                 <p>Paris is the capital of France.</p> 
+               </div>
+               <div id="Tokyo" class="tabcontent">
+                 <h3>Tokyo</h3>
+                 <p>Tokyo is the capital of Japan.</p>
                </div>
               </footer>
-
-
               {% block videostream %}
-
               {% endblock videostream %}
-              
 <script src="{% static 'googlemaps/java.js' %}"></script>
 <script src="{% static 'googlemaps/event.js' %}"></script>
+<script src="{% static 'googlemaps/tabs.js' %}"></script>
 {% endblock content %}
 
 

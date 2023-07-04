@@ -15,7 +15,7 @@ const map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/mapbox/satellite-streets-v12', 
 center: [74.24076031193948, 31.39222922632956],
-zoom: 17 // 
+zoom: 12 // 
 });
 // End Show map
 
