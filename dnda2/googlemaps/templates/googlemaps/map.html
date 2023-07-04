@@ -26,9 +26,12 @@
     <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
         <div class="path_planning">
-          <form action="">
+          <form action="" method="POST">
+            <!-- {% csrf_token %} -->
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
+
           <label for="OverLaping"><b>Overlapping Rate</b></label>
-          <select name="OverLaping" id="overlap" class="form-control">
+          <select name="OverLaping" id="overlap" class="form-control" oninput="updateArea()">
             <option value=".10">10%</option>
             <option value=".20">20%</option>
             <option value=".30">30%</option>
@@ -36,27 +39,33 @@
             <option value=".50">50%</option>
             <option value=".60">60%</option>
             <option value=".70">70%</option>
-            <option value=".80">80%</option>
+            <option value=".80" selected>80%</option>
             <option value=".90">90%</option>
           </select>
         <br>
         <br>
         <div>
-        <label for="asra">Aspect Ratio</label>
-          <select name="ar" id="asra" class="form-control">
-            <option value="1:1">1:1</option>
-            <option value="4:3">4:3</option>
-            <option value="16:9">16:9</option>
+        <label for="asra"><b>Aspect Ratio</b></label>
+        <select name="ar" id="asra" class="form-control" oninput="updateArea()">
+          <option value="1:1">1:1</option>
+          <option value="4:3">4:3</option>
+          <option value="16:9" selected>16:9</option>
+        </select>
+        <br>
+        <br>
+        <label for="asra"><b>Method</b> </label>
+          <select name="ar" id="Algo" class="form-control" style="margin-left: -7px;" oninput="updateArea()">
+            <option value="BFS">BFS</option>
+            <option value="DFS" selected>DFS</option>
           </select>
-<br>
-<br>
-          <label for="fa">Flight Altitude (meter)</label>
-          <select name="fa" id="flight-altitude" class="form-control" style="margin-left: -7px;">
+
+          <label for="fa"><b>Flight Altitude (meter)</b></label>
+          <select name="fa" id="flight-altitude" class="form-control" style="margin-left: -7px;" oninput="updateArea()">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="40">40</option>
-            <option value="50">50</option>
+            <option value="50" selected>50</option>
             <option value="60">60</option>
             <option value="70">70</option>
             <option value="80">80</option>
@@ -67,9 +76,9 @@
         </div>
     
         <br>
-        <div class="">
-          <button class="btn btn-primary" onclick="mission_plan()">Set Parameter</button>
-        </div>
+        <!-- <div class="">
+          <button class="btn btn-primary" >Set Parameter</button>
+        </div> -->
 
       </div>
     </div>

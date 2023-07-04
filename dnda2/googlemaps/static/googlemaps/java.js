@@ -65,13 +65,18 @@ answer.innerHTML = '';
 if (e.type !== 'draw.delete')
 alert('Click the map to draw a polygon.');
 }
-var data2 = {'cordinates':cor}
- var csrftoken = getCookie('csrftoken');
+var overlaping_rate = document.getElementById('overlap').value
+var Aspect_Ration = document.getElementById("asra").value
+var Altitude = document.getElementById("flight-altitude").value
+var Algo = document.getElementById("Algo").value
+var data2 = {'cordinates':cor,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo}
+var csrfToken = document.getElementById('csrf_token').value;
+//  var csrftoken = getCookie('csrftoken');
  $.ajax({
      type: 'POST',
      url: 'pp/',
      data: data2,
-     headers: {'X-CSRFToken': csrftoken}, 
+     headers: {'X-CSRFToken': csrfToken}, 
      success: function(data1) {
 var path_geojson_obj = JSON.parse(data1);
 if (map.getLayer('path')) {
@@ -101,20 +106,20 @@ map.addLayer({
          console.log('Error sending data: ' + errorThrown);
      }
  });
- function getCookie(name) {
-     var cookieValue = null;
-     if (document.cookie && document.cookie !== '') {
-         var cookies = document.cookie.split(';');
-         for (var i = 0; i < cookies.length; i++) {
-             var cookie = cookies[i].trim();
-             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                 break;
-             }
-         }
-     }
-     return cookieValue;
- }
+//  function getCookie(name) {
+//      var cookieValue = null;
+//      if (document.cookie && document.cookie !== '') {
+//          var cookies = document.cookie.split(';');
+//          for (var i = 0; i < cookies.length; i++) {
+//              var cookie = cookies[i].trim();
+//              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                  break;
+//              }
+//          }
+//      }
+//      return cookieValue;
+//  }
 }
 
 

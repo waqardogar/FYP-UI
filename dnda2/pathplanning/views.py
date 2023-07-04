@@ -13,6 +13,7 @@ def pathplanning(request):
     if request.method=='POST':
         cordinates = request.POST
         cordinates1 = dict(cordinates)
+        print(cordinates1)
         cr=[]
         for key,value in cordinates1.items():
             if key.startswith('cordinates'):
