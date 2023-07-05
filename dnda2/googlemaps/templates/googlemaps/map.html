@@ -132,26 +132,57 @@
     <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
         <div class="upload">
-          <form class="form-control" action="{% url 'VideoUpload' %}">
+          <form class="form-control" action="{% url 'VideoUpload' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="video-name"><b>Name of area</b></label>
-            <input type="text" name="video-name" id="video" class="form-control" required> 
-            <br>
-            <input type="file" accept="video/mp4,video/x-m4v,video/*">
+            <input type="text" name="area-name" id="video" class="form-control" required> 
+            <br>  
+            <input type="file" accept="video/mp4,video/x-m4v,video/*" name="video">
 <br>
 <br>
             <button type="submit" class="btn btn-primary"> Upload</button>
+
 <br>
-              <div class="alert alert-success" role="alert">
-                Account created ........ ! 
-              </div>
-          
-          </form>
+<br>
+</form>
+{% if success == True %}
+            <div class="alert alert-success" role="alert">
+              Video Uploaded 
+            </div>
+{% elif success == 2  %}
+            <div class="alert alert-danger" role="alert">
+              Video Uploading error 
+            </div>
+{% else %}
+            <div></div>
+{% endif %}
         </div>
       </div>
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('#upload-form').submit(function(e) {
+    e.preventDefault();
+    
+    var form = $(this);
+    var formData = new FormData(form[0]);
+    
+    $.ajax({
+      url: form.attr('action'),
+      type: form.attr('method'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        $('#success-message').show();
+      }
+    });
+  });
+});
+</script>
               </div>
                 </div>
               <footer class="footer ">
@@ -189,14 +220,3 @@
 <script src="{% static 'googlemaps/event.js' %}"></script>
 <script src="{% static 'googlemaps/tabs.js' %}"></script>
 {% endblock content %}
-
-
-
-
-
-
-
-
-
-
-
