@@ -4,4 +4,5 @@ from pathplanning import views as v_p
 urlpatterns=[
     path("",views.dashboard),
     path("pp/", v_p.pathplanning,name="pathplanning"),
+    path("video-upload/",views.VideoUpload,name="VideoUpload")
 ]

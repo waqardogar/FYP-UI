@@ -132,11 +132,20 @@
     <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
       <div class="accordion-body">
         <div class="upload">
-          <form class="form-control">
+          <form class="form-control" action="{% url 'VideoUpload' %}">
+            {% csrf_token %}
+            <label for="video-name"><b>Name of area</b></label>
+            <input type="text" name="video-name" id="video" class="form-control" required> 
+            <br>
             <input type="file" accept="video/mp4,video/x-m4v,video/*">
 <br>
 <br>
             <button type="submit" class="btn btn-primary"> Upload</button>
+<br>
+              <div class="alert alert-success" role="alert">
+                Account created ........ ! 
+              </div>
+          
           </form>
         </div>
       </div>
