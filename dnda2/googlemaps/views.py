@@ -17,9 +17,5 @@ def VideoUpload(request):
         video_path = fs.url(filename)
         Video = video(AreaName = area_name , file_name = filename , file_path = video_path)
         Video.save()
-        print(filename)
-
-        print(video_path)
-
         return render(request,"googlemaps/map.html",{'success': True})
     return render(request,"googlemaps/map.html",{'success': 2})
