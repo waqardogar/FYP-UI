@@ -13,14 +13,14 @@ def pathplanning(request):
     if request.method=='POST':
         cordinates = request.POST
         cordinates1 = dict(cordinates)
-        ovrelaping = float(cordinates1.get('overlaping'))
+        ovrelaping = float(cordinates1.get('overlaping')[0])
         ar=cordinates1.get('ar')
         split_ar = ar[0].split(":")
         width = int(split_ar[0])
         height = int(split_ar[1])
         aspwct_ratio = width/height
-        altitude=int(cordinates1.get('height'))
-        algo=cordinates1.get('Algo')
+        altitude=int(cordinates1.get('height')[0])
+        algo=cordinates1.get('Algo')[0]
         cr=[]
         for key,value in cordinates1.items():
             if key.startswith('cordinates'):
@@ -39,8 +39,8 @@ def pathplanning(request):
         pp = Proj(proj='utm',zone=42,ellps='WGS84', preserve_units=False)
         x,y = pp(lng,lat)
         al = radians(90)
-        cell_y_o = (2*50*tan(al/2))/(1+aspwct_ratio**2)**0.5
-        cell_x_o = aspwct_ratio*((2*50*tan(al/2))/(1+aspwct_ratio**2)**0.5)
+        cell_y_o = (2*altitude*tan(al/2))/(1+aspwct_ratio**2)**0.5
+        cell_x_o = aspwct_ratio*((2*altitude*tan(al/2))/(1+aspwct_ratio**2)**0.5)
         x_size = (1-ovrelaping)*cell_x_o
         y_size = (1-ovrelaping)*cell_y_o
         x_max = np.max(x)
@@ -93,19 +93,59 @@ def pathplanning(request):
                     visited.add(node)
                     for neighbour in graph[node]:
                         dfs(visited, graph, neighbour)
-        s=list(graph_of_area.keys())
-        dfs(visited, graph_of_area, s[0])
-        path2=[]
-        for i in path:
-            cord = cor_map_its_center[i]
-            path2.append(cord)
-        lng = []
-        lat = []
-        final_path_with_lat_lng = []
-        for i in range(len(path2)):
-            x,y = path2[i]
-            lat_lng = pp(x,y,inverse=True)
-            final_path_with_lat_lng.append(lat_lng)
+            s=list(graph_of_area.keys())
+            dfs(visited, graph_of_area, s[0])
+            path2=[]
+            for i in path:
+                cord = cor_map_its_center[i]
+                path2.append(cord)
+            lng = []
+            lat = []
+            final_path_with_lat_lng = []
+            for i in range(len(path2)):
+                x,y = path2[i]
+                lat_lng = pp(x,y,inverse=True)
+                final_path_with_lat_lng.append(lat_lng)
+        if algo=="BFS":
+            def bfs_zigzag(graph, start):
+                if start not in graph:
+                    return []
+                result = []
+                queue = [(start, 0)]
+                v = set([start])
+                while queue:
+                    node, level = queue.pop(0)
+                    if len(result) <= level:
+                        result.append([])
+                    if level % 2 == 0:
+                        result[level].append(node)
+                    else:
+                        result[level].insert(0, node)
+                    for n in graph[node]:
+                        if n not in v:
+                            v.add(n)
+                            queue.append((n, level + 1))
+                            graph[n].append(node)
+                return result
+            s=list(graph_of_area.keys())
+            # print(g2['0,0'])
+            zz=bfs_zigzag(graph_of_area, s[0])
+            zz_f=[]
+            for i in range(len(zz)):   
+                zz2 = zz[i]
+                for j in range(len(zz2)):
+                    zz_f.append(zz2[j])
+            path3=[]
+            for i in zz_f:
+                cord = cor_map_its_center[i]
+                path3.append(cord)
+            lng = []
+            lat = []
+            final_path_with_lat_lng = []
+            for i in range(len(path3)):
+                x,y = path3[i]
+                lat_lng = pp(x,y,inverse=True)
+                final_path_with_lat_lng.append(lat_lng)       
     import json
     path_geojson = {
     "type": "Feature",
