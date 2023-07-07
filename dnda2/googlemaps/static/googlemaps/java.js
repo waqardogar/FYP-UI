@@ -71,11 +71,11 @@ var nfz = document.getElementById("flexSwitchCheckChecked").checked
 console.log(nfz)
 if (nfz){
   var cordi = cor
-  var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo}
+  var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo,"NFZ":cor}
   var csrfToken = document.getElementById('csrf_token').value;
  $.ajax({
      type: 'POST',
-     url: 'pp/',
+     url: 'ppNFZ/',
      data: data2,
      headers: {'X-CSRFToken': csrfToken}, 
      success: function(data1) {
@@ -107,13 +107,12 @@ map.addLayer({
  });
 }
 else{
-    var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo,"NFZ":cor}
     var cordi = cor
     var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo}
     var csrfToken = document.getElementById('csrf_token').value;
    $.ajax({
        type: 'POST',
-       url: 'ppNFZ/',
+       url: 'pp/',
        data: data2,
        headers: {'X-CSRFToken': csrfToken}, 
        success: function(data1) {

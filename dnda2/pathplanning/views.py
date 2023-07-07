@@ -3,17 +3,24 @@ from django.http import HttpResponse
 import joblib
 from math import radians,tan
 from pyproj import Proj
-from matplotlib import pyplot as plt
 import numpy as np
-import matplotlib.path as mpath
-import networkx as nx
-# Create your views here.
+import numpy as np 
+from math import radians , tan
+from pyproj import Proj
+from matplotlib.path import Path
 def pathplanning(request):
     import json
     if request.method=='POST':
         cordinates = request.POST
         cordinates1 = dict(cordinates)
-        print(cordinates1)
+        ovrelaping = float(cordinates1.get('overlaping'))
+        ar=cordinates1.get('ar')
+        split_ar = ar[0].split(":")
+        width = int(split_ar[0])
+        height = int(split_ar[1])
+        aspwct_ratio = width/height
+        altitude=int(cordinates1.get('height'))
+        algo=cordinates1.get('Algo')
         cr=[]
         for key,value in cordinates1.items():
             if key.startswith('cordinates'):
@@ -24,9 +31,81 @@ def pathplanning(request):
             lan = float(i[1])
             d = [lat,lan]
             cor.append(d)
-        # print(cor)
-        final_path_with_lat_lng = "done"
-    # print(final_path_with_lat_lng)
+        lng=[]
+        lat=[]
+        for i in range(len(cor)):
+            lng.append(cor[i][0])
+            lat.append(cor[i][1])
+        pp = Proj(proj='utm',zone=42,ellps='WGS84', preserve_units=False)
+        x,y = pp(lng,lat)
+        al = radians(90)
+        cell_y_o = (2*50*tan(al/2))/(1+aspwct_ratio**2)**0.5
+        cell_x_o = aspwct_ratio*((2*50*tan(al/2))/(1+aspwct_ratio**2)**0.5)
+        x_size = (1-ovrelaping)*cell_x_o
+        y_size = (1-ovrelaping)*cell_y_o
+        x_max = np.max(x)
+        y_max = np.max(y)
+        x_min = np.min(x)
+        y_min = np.min(y)
+        x_limit = int(np.ceil((x_max-x_min) / x_size)) 
+        y_limit = int(np.ceil((y_max-y_min) / y_size)) 
+        cells_maps = np.zeros((x_limit, y_limit), dtype=bool)
+        grids = []
+        grids_center=[]
+        cor_map_its_center={}
+        path = Path(np.column_stack([x, y]))
+        for i in range(x_limit):
+            for j in range(y_limit):
+                x0, y0 = x_min + i * x_size, y_min + j * y_size
+                if path.contains_point([x0, y0]) and path.contains_point([x0, y0 + y_size]) and path.contains_point([x0 + x_size, y0 + y_size]) and path.contains_point([x0 + x_size, y0]):
+                    grid = np.array([[x0, y0], [x0, y0 + y_size], [x0 + x_size, y0 + y_size], [x0 + x_size, y0]])
+                    grids.append(grid)
+                    cells_maps[i][j] = 1
+                    x_center = (x0+x0+x_size)/2
+                    y_center = (y0+y0+y_size)/2
+                    key = f"{i},{j}"
+                    cor_map_its_center[key]=[x_center,y_center]
+                else:
+                    grids.append(0)
+                    cells_maps[i][j] = 0
+
+        graph_of_area = {}
+        for i in range(x_limit):
+            for j in range(y_limit):
+                if cells_maps[i][j]:
+                    node_id = f"{i},{j}"
+                    neighbor_id = []
+                    if i > 0 and cells_maps[i-1][j]:
+                        neighbor_id.append(f"{i-1},{j}")
+                    if i < x_limit-1 and cells_maps[i+1][j]:
+                        neighbor_id.append(f"{i+1},{j}")
+                    if j > 0 and cells_maps[i][j-1]:
+                        neighbor_id.append(f"{i},{j-1}")
+                    if j < y_limit-1 and cells_maps[i][j+1]:
+                        neighbor_id.append(f"{i},{j+1}")
+                    graph_of_area[node_id]=neighbor_id
+        visited = set()
+        path = []
+        if algo=='DFS':
+            def dfs(visited, graph, node):
+                if node not in visited:
+                    path.append(node)
+                    visited.add(node)
+                    for neighbour in graph[node]:
+                        dfs(visited, graph, neighbour)
+        s=list(graph_of_area.keys())
+        dfs(visited, graph_of_area, s[0])
+        path2=[]
+        for i in path:
+            cord = cor_map_its_center[i]
+            path2.append(cord)
+        lng = []
+        lat = []
+        final_path_with_lat_lng = []
+        for i in range(len(path2)):
+            x,y = path2[i]
+            lat_lng = pp(x,y,inverse=True)
+            final_path_with_lat_lng.append(lat_lng)
     import json
     path_geojson = {
     "type": "Feature",
@@ -43,7 +122,7 @@ def pathplanning_NFZ(request):
     if request.method=='POST':
         cordinates = request.POST
         cordinates1 = dict(cordinates)
-        print(cordinates1)
+        print("NFZ",cordinates1)
         cr=[]
         for key,value in cordinates1.items():
             if key.startswith('cordinates'):
@@ -56,7 +135,6 @@ def pathplanning_NFZ(request):
             cor.append(d)
         # print(cor)
         final_path_with_lat_lng = "done"
-    # print(final_path_with_lat_lng)
     import json
     path_geojson = {
     "type": "Feature",
