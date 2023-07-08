@@ -47,10 +47,5 @@ def VideoUpload(request):
             os.makedirs(save_dir)
             save_dir = os.path.join(settings.MEDIA_ROOT, 'dataset/'+area_name)
         frame_extractor(new_path, save_dir, current_frame,gap=50)
-
-
-
-
-
         return render(request,"googlemaps/map.html",{'success': True})
     return render(request,"googlemaps/map.html",{'success': 2})

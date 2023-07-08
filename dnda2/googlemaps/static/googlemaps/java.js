@@ -1,3 +1,4 @@
+let allShapeCoordinates = [];
 function openNav() {
     document.getElementById("mySidenav").style.width = "340px";
     document.getElementById("main").style.marginLeft = "250px";
@@ -54,7 +55,9 @@ showUserHeading: true
 function updateArea(e) {
 const data = draw.getAll();
 cor=data['features'][0]['geometry']['coordinates'];
-
+console.log(cor)
+allShapeCoordinates.push(cor)
+console.log(allShapeCoordinates)
 if (data.features.length > 0) {
 const area = turf.area(data);
 const rounded_area = Math.round(area * 100) / 100;
@@ -68,10 +71,10 @@ var Aspect_Ration = document.getElementById("asra").value
 var Altitude = document.getElementById("flight-altitude").value
 var Algo = document.getElementById("Algo").value
 var nfz = document.getElementById("flexSwitchCheckChecked").checked
-console.log(nfz)
 if (nfz){
-  var cordi = cor
-  var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo,"NFZ":cor}
+  const lastElement = allShapeCoordinates[allShapeCoordinates.length - 1];
+  const secondLastElement = allShapeCoordinates[allShapeCoordinates.length - 2];
+  var data2 = {'cordinates':secondLastElement,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo,"NFZ":lastElement}
   var csrfToken = document.getElementById('csrf_token').value;
  $.ajax({
      type: 'POST',
@@ -107,8 +110,11 @@ map.addLayer({
  });
 }
 else{
-    var cordi = cor
-    var data2 = {'cordinates':cordi,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo}
+    const lastElement = allShapeCoordinates[allShapeCoordinates.length - 1];
+    // const secondLastElement = array[array.length - 2];
+    cor2=data['features'][0]['geometry']['coordinates'];
+    var previous_cord = cor2
+    var data2 = {'cordinates':lastElement,"overlaping":overlaping_rate,"ar":Aspect_Ration,"height":Altitude,"Algo":Algo}
     var csrfToken = document.getElementById('csrf_token').value;
    $.ajax({
        type: 'POST',

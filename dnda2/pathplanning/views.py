@@ -128,7 +128,6 @@ def pathplanning(request):
                             graph[n].append(node)
                 return result
             s=list(graph_of_area.keys())
-            # print(g2['0,0'])
             zz=bfs_zigzag(graph_of_area, s[0])
             zz_f=[]
             for i in range(len(zz)):   
@@ -162,7 +161,15 @@ def pathplanning_NFZ(request):
     if request.method=='POST':
         cordinates = request.POST
         cordinates1 = dict(cordinates)
-        print("NFZ",cordinates1)
+        print(cordinates1)
+        ovrelaping = float(cordinates1.get('overlaping')[0])
+        ar=cordinates1.get('ar')
+        split_ar = ar[0].split(":")
+        width = int(split_ar[0])
+        height = int(split_ar[1])
+        aspwct_ratio = width/height
+        altitude=int(cordinates1.get('height')[0])
+        algo=cordinates1.get('Algo')[0]
         cr=[]
         for key,value in cordinates1.items():
             if key.startswith('cordinates'):
@@ -173,7 +180,16 @@ def pathplanning_NFZ(request):
             lan = float(i[1])
             d = [lat,lan]
             cor.append(d)
-        # print(cor)
+        for key,value in cordinates1.items():
+            if key.startswith('cordinates'):
+                cr.append(value)
+        cor = []
+        for i in cr:
+            lat = float(i[0])
+            lan = float(i[1])
+            d = [lat,lan]
+            cor.append(d)
+        
         final_path_with_lat_lng = "done"
     import json
     path_geojson = {
